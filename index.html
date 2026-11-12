@@ -376,7 +376,7 @@ async function run(){
   $('#go').disabled = true;
   $('#result').style.display = 'none';
   audioSetup();
-  if (actx && actx.state === 'suspended') await actx.resume();
+  if (actx && actx.state === 'suspended') await Promise.race([actx.resume().catch(()=>{}), new Promise(r => setTimeout(r, 400))]);
   const opts = { mode: val('mode'), spins: +val('spins'), caption: $('#caption').value.trim() };
   const DUR = 0.7 + 0.45 + 0.4*opts.spins + 0.4 + 1.8;
 
